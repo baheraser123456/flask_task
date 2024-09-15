@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, redirect, render_template, flash
+from flask import Flask, request, send_file, redirect, flash
 import os
 from werkzeug.utils import secure_filename
 from zipfile import ZipFile
@@ -59,12 +59,9 @@ def automaticsplit():
         return redirect(request.url)
     
     if file and allowed_file(file.filename):
-        # Save the uploaded file
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
-
-        # Function to split the PDF
         def get_ranges(file_path):
             reader = p.PdfReader(file_path)
             len_page = len(reader.pages)
@@ -100,7 +97,6 @@ def automaticsplit():
             for split_file in split_files:
                 zipf.write(split_file, os.path.basename(split_file))
         
-        # Send the zip file to the user
         return send_file(zip_path, as_attachment=True)
 
     return redirect(request.url)
@@ -118,7 +114,7 @@ def get_ranges():
         return redirect(request.url)
     
     if file and allowed_file(file.filename):
-        # Save the uploaded file
+
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
