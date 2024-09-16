@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, redirect, render_template, flash
+from flask import Flask, request, send_file, redirect,  flash
 import os
 from werkzeug.utils import secure_filename
 from zipfile import ZipFile
@@ -59,7 +59,7 @@ def automaticsplit():
         return redirect(request.url)
     
     if file and allowed_file(file.filename):
-        # Save the uploaded file
+     
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
@@ -74,7 +74,7 @@ def automaticsplit():
                 if i == 0:
                     continue
                 text = reader.pages[i].extract_text().upper()
-                if 'SECTION 1:' in text or 'SECTION 1.' in text:
+                if 'SECTION 1:' in text or 'SECTION 1.'or 'SECTION 1'or 'PRODUCT IDENTIFIER' in text:
                     list_ranges.append((j, i))
                     j = i
             return list_ranges
@@ -100,7 +100,7 @@ def automaticsplit():
             for split_file in split_files:
                 zipf.write(split_file, os.path.basename(split_file))
         
-        # Send the zip file to the user
+
         return send_file(zip_path, as_attachment=True)
 
     return redirect(request.url)
