@@ -72,7 +72,7 @@ def automaticsplit():
                 if i == 0:
                     continue
                 text = reader.pages[i].extract_text().upper()
-                if 'SECTION 1:' in text or 'SECTION 1.'or 'SECTION 1'or 'PRODUCT IDENTIFIER' in text:
+                if 'SECTION 1:' in text or 'SECTION 1.'or 'SECTION 1 'or 'PRODUCT IDENTIFIER' in text:
                     list_ranges.append((j, i))
                     j = i
             return list_ranges
